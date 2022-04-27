@@ -76,35 +76,38 @@ class CircularSLL:
         index = 0
         if node == None:
             print('linked list not found')
-        while node != None:
+        while node:
             if(node.value == value):
-                print('index', index)
-                break
-            else:
-                index += 1
-                node = node.next
-        else:
-            print("the value does not exist in the list")
+                return node.value, index
+            node = node.next
+            index += 1
+            if node == self.tail.next:
+                return 'node does not exist in the csll'
 
-    def deleteSLL(self, location):
+    def deleteCSLL(self, location):
         node = self.head
         if self.head == None:
             print("no linked list so ever")
         elif(location == 0):
             if(self.head == self.tail):
+                self.head.next = None
                 self.head = None
                 self.tail = None
             else:
                 self.head = self.head.next
+                self.tail.next = self.head
         elif(location == -1):
             if(self.head == self.tail):
+                self.head.next = None
                 self.head = None
                 self.tail = None
+
             while node is not None:
-                if(node.next == self.tail):
+                if(node.next == self.head):
                     break
                 node = node.next
-            node.next = None
+            node.next = self.head
+            self.tail.next = None
             self.tail = node
         else:
             index = 0
@@ -113,6 +116,11 @@ class CircularSLL:
                 index += 1
             nextNode = node.next
             node.next = nextNode.next
+
+    def deleteEntireCSLL(self):
+        self.head = None
+        self.tail.next = None
+        self.tail = None
 
 
 cSLL = CircularSLL()
@@ -127,7 +135,8 @@ print(cSLL.tail.next.value)
 print([node.value for node in cSLL])
 cSLL.traverseCSLL()
 # cSLL.traverseSLL()
-# cSLL.searchSLL(7)
+print(cSLL.searchCSLL(7))
 
-# cSLL.deleteSLL(3)
-# print([node.value for node in cSLL])
+cSLL.deleteCSLL(3)
+print([node.value for node in cSLL])
+cSLL.traverseCSLL()
